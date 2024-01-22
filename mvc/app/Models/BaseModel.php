@@ -92,4 +92,31 @@ class BaseModel
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
+
+    /**
+     * method insert: thêm dữ liệu
+     * @$data: là mảng dữ liệu cần thêm no phai có key là tên cột
+     */
+    public static function insert($data)
+    {
+        $model = new static;
+        $model->sqlBuilder = "INSERT INTO $model->tableName( ";
+
+        //Biến values để nối các tham số cho value
+        $values = "";
+        foreach ($data as $column => $value) {
+            $model->sqlBuilder .= "`{$column}`, ";
+            $values .= ":$column, ";
+        }
+        //thực loại bỏ dấu ", " ở bên phải chuỗi bằng hàm rtrim
+        $model->sqlBuilder = rtrim($model->sqlBuilder, ", ") . ") ";
+        $values = "VALUES( " . rtrim($values, ", ") . ")";
+        //Nối chuỗi sqlbuilder với values
+        $model->sqlBuilder .= $values;
+
+        $stmt = $model->conn->prepare($model->sqlBuilder);
+        $stmt->execute($data);
+        //trả lại giá trị id mới nhất
+        return $model->conn->lastInsertId();
+    }
 }
