@@ -19,7 +19,7 @@ class BaseModel
     protected $conn;
     protected $sqlBuilder;
     protected $tableName;
-
+    protected $primaryKey = 'id';
     public function __construct()
     {
         $host = HOSTNAME;
@@ -43,5 +43,21 @@ class BaseModel
         $stmt  = $model->conn->prepare($model->sqlBuilder);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_CLASS);
+    }
+
+    //method find lấy dữ liệu theo id
+    public static function find($id)
+    {
+        $model = new static;
+        $model->sqlBuilder = "SELECT * FROM $model->tableName WHERE $model->primaryKey=:$model->primaryKey";
+        $stmt  = $model->conn->prepare($model->sqlBuilder);
+        $data = ["$model->primaryKey" => $id];
+        $stmt->execute($data);
+        $result = $stmt->fetchAll(PDO::FETCH_CLASS);
+        //Trong trường hợp có dữ liệu
+        if ($result) {
+            return $result[0];
+        }
+        return $result;
     }
 }
