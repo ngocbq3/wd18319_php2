@@ -21,4 +21,5 @@ $data = [
     'image' => 'iphone21.jpg'
 ];
 
-dd(ProductModel::update(169, $data));
+// dd(ProductModel::update(169, $data));
+dd(ProductModel::delete(165));
