@@ -26,4 +26,27 @@ class Router
     {
         return strtolower($_SERVER["REQUEST_METHOD"]);
     }
+
+    //Method resolve: thực hiện việc điều hướng theo routes
+    public function resolve()
+    {
+        $method = $this->getMethod();
+        //Lấy đường dẫn trên thanh địa chỉ trình duyệt
+        $path = $_SERVER["REQUEST_URI"];
+        //Tiến hành làm gọn đường dẫn
+        $path = str_replace(ROOT_URI, "/", $path);
+
+        $callback = false;
+        //Kiểm tra xem đường dẫn có được khai báo chưa
+        if (isset(static::$routes[$method][$path])) {
+            $callback = static::$routes[$method][$path];
+        }
+        if ($callback === false) {
+            echo "404 NOT FOUND";
+            die;
+        }
+        if (is_callable($callback)) {
+            return $callback();
+        }
+    }
 }
