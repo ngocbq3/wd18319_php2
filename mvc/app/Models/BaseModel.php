@@ -119,4 +119,27 @@ class BaseModel
         //trả lại giá trị id mới nhất
         return $model->conn->lastInsertId();
     }
+
+    /**
+     * method update: để cập nhật dữ liệu
+     * @$id: giá trị làm điều kiện
+     * @$data: mảng dữ liệu cần cập nhật, nó phải có key và value, key phải là tên cột
+     */
+    public static function update($id, $data)
+    {
+        $model = new static;
+        $model->sqlBuilder = "UPDATE $model->tableName SET ";
+        foreach ($data as $column => $value) {
+            $model->sqlBuilder .= "`{$column}`=:$column, ";
+        }
+        //Xóa dấu ", " ở cuối chuỗi
+        $model->sqlBuilder = rtrim($model->sqlBuilder, ", ");
+        //Thêm điều kiện cho câu lệnh SQL
+        $model->sqlBuilder .= " WHERE `$model->primaryKey`=:$model->primaryKey";
+
+        $stmt = $model->conn->prepare($model->sqlBuilder);
+        //Thêm $id vào $data
+        $data["$model->primaryKey"] = $id;
+        return $stmt->execute($data);
+    }
 }

@@ -15,9 +15,10 @@ use App\Models\ProductModel;
 // dd($product);
 
 $data = [
-    'name' => "Iphone 21",
+    'name' => "Iphone 21 new",
     'price' => 2000,
-    'detail' => '1 quả thận'
+    'detail' => '1 quả thận',
+    'image' => 'iphone21.jpg'
 ];
 
-ProductModel::insert($data);
+dd(ProductModel::update(169, $data));
