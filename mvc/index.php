@@ -11,6 +11,7 @@ require_once __DIR__ . "/vendor/autoload.php";
 $router = new Router();
 
 Router::get("/home", [HomeController::class, 'index']);
+Router::get("/detail", [HomeController::class, 'detail']);
 //Khai báo các đường dẫn cho website
 Router::get("/", function () {
     echo "HOME PAGE";

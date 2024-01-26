@@ -35,6 +35,12 @@ class Router
         $path = $_SERVER["REQUEST_URI"];
         //Tiến hành làm gọn đường dẫn
         $path = str_replace(ROOT_URI, "/", $path);
+        //Tìm vị trí xuất hiện dấu ? ở trong $path
+        $position = strpos($path, "?");
+        //Nếu tìm được, thì tiến hành làm gòn $path
+        if ($position) {
+            $path = substr($path, 0, $position);
+        }
 
         $callback = false;
         //Kiểm tra xem đường dẫn có được khai báo chưa
