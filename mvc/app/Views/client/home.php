@@ -9,7 +9,13 @@
 
 <body>
     <h1>Trang chủ</h1>
-
+    <!--Menu categories-->
+    <nav>
+        <?php foreach ($categories as $cate) : ?>
+            <a href="#"><?= $cate->cate_name ?></a>
+        <?php endforeach ?>
+    </nav>
+    <!--End foreach-->
     <?php foreach ($products as $pro) : ?>
         <a href="<?= ROOT_PATH ?>detail?id=<?= $pro->id ?>">
             <h3><?= $pro->name ?></h3>
