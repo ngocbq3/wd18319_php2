@@ -10,3 +10,10 @@ function dd($data)
     echo "</pre>";
     die;
 }
+
+//Hàm chuyển hướng website
+function redirect($route)
+{
+    header("location:" . ROOT_PATH . $route);
+    die;
+}

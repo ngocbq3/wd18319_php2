@@ -1,3 +1,6 @@
+<div class="message">
+    <?= $message ?>
+</div>
 <form action="" method="post" enctype="multipart/form-data">
     Tên sản phẩm:
     <input type="text" name="name" value="<?= $product->name ?>">

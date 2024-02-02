@@ -50,9 +50,44 @@ class ProductController extends BaseController
         $id = $_GET['id'];
         $product = ProductModel::find($id);
         $categories = CategoryModel::all();
+
+        //lấy message khi cập nhật
+        $message = $_COOKIE['message'] ?? '';
         return $this->view(
             "admin/products/edit",
-            ['product' => $product, 'categories' => $categories]
+            [
+                'product' => $product,
+                'categories' => $categories,
+                'message' => $message
+            ]
         );
+    }
+    //Phương thức cập nhật dữ liệu
+    public function update()
+    {
+        $data = $_POST;
+        //Xử lý file
+        $file = $_FILES['image'];
+        //Kiểm tra xem người dùng có cập nhật ảnh không
+        //Xem người dùng có nhập ảnh vào form không
+        if ($file['size'] > 0) {
+            $image = $file['name']; //Lấy tên ảnh
+            move_uploaded_file($file['tmp_name'], "images/" . $image);
+            //Thêm ảnh vào data
+            $data['image'] = $image;
+        }
+        //Cập nhật DL
+        ProductModel::update($data['id'], $data);
+        setcookie("message", "Cập nhật dữ liệu thành công", time() + 2);
+        //Quay lại giao diện edit
+        header("location:" . ROOT_PATH . "product/edit?id=" . $data['id']);
+        die;
+    }
+    //Phương thức xóa dl
+    public function delete()
+    {
+        $id = $_GET['id'];
+        ProductModel::delete($id);
+        redirect('product/list');
     }
 }

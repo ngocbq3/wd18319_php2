@@ -3,6 +3,7 @@
 use App\Router;
 use App\Controllers\HomeController;
 use App\Controllers\ProductController;
+use App\Models\ProductModel;
 
 require_once __DIR__ . "/env.php";
 require_once __DIR__ . "/config.php";
@@ -24,5 +25,8 @@ Router::get("/product/list", [ProductController::class, 'index']);
 Router::get("/product/create", [ProductController::class, 'create']);
 Router::post("/product/create", [ProductController::class, 'store']);
 Router::get("/product/edit", [ProductController::class, 'edit']);
+Router::post("/product/edit", [ProductController::class, 'update']);
+//Xóa dữ liệu
+Router::get("/product/delete", [ProductController::class, 'delete']);
 
 $router->resolve();
