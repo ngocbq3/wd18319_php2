@@ -1,9 +1,10 @@
 <form action="<?= ROOT_PATH ?>product/create" method="post" enctype="multipart/form-data">
     Tên sản phẩm:
     <input type="text" name="name" id="">
+    <?php echo $errors['name'] ?? '' ?>
     <br>
     Giá sản phẩm:
-    <input type="number" name="price" id="">
+    <input type="number" name="price" id=""><?php echo $errors['price'] ?? '' ?>
     <br>
     Hình ảnh:
     <input type="file" name="image" id="">
